@@ -1,0 +1,10 @@
+pandas
+pyarrow
+grpcio
+grpcio-status
+googleapis-common-protos
+py4j
+streamlit
+streamlit_autorefresh
+matplotlib
+pydeck[jupyter]

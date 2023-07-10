@@ -1,0 +1,10 @@
+FROM bitnami/spark:3.4.0
+USER root
+COPY . ./mycode
+RUN pip install --no-cache-dir -r ./mycode/req.txt
+RUN apt-get update && (apt-get install nano; apt-get install sudo; apt-get install curl -y -qq)
+RUN cd jars && (curl -O https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.12/3.4.0/spark-sql-kafka-0-10_2.12-3.4.0.jar ;\
+                curl -O https://repo1.maven.org/maven2/org/apache/commons/commons-pool2/2.11.1/commons-pool2-2.11.1.jar ;\
+                curl -O https://repo1.maven.org/maven2/org/apache/kafka/kafka-clients/3.4.0/kafka-clients-3.4.0.jar;\
+                curl -O https://repo1.maven.org/maven2/org/apache/spark/spark-token-provider-kafka-0-10_2.12/3.4.0/spark-token-provider-kafka-0-10_2.12-3.4.0.jar;\
+                curl -O https://repo1.maven.org/maven2/com/microsoft/sqlserver/mssql-jdbc/7.2.2.jre8/mssql-jdbc-7.2.2.jre8.jar)

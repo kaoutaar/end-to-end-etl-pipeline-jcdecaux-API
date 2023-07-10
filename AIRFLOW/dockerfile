@@ -1,0 +1,11 @@
+FROM apache/airflow:2.6.2-python3.9
+COPY ./req.txt .
+RUN pip install --no-cache-dir -r ./req.txt
+USER root
+RUN apt-get update \
+ && apt-get install --yes --no-install-recommends apt-transport-https curl gnupg unixodbc-dev \
+ && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+ && curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+ && apt-get update \
+ && ACCEPT_EULA=Y apt-get install --yes --no-install-recommends msodbcsql17
+USER airflow

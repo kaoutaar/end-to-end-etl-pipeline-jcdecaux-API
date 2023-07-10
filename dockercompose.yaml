@@ -1,0 +1,132 @@
+version: '3.9'
+
+networks:
+  appnet:
+    driver: bridge
+
+services:
+  zookeeper:
+    image: 'bitnami/zookeeper:3.8.1'
+    container_name: zookeeper
+    restart: on-failure
+    expose: ["2181"]
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    networks:
+      - appnet
+
+
+  kafka:
+    image: 'bitnami/kafka:3.3.2'
+    container_name: kafka
+    restart: on-failure
+    expose: ["9092"]
+    ports:
+      - '9093:9093'
+    environment:
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,EXTERNAL://:9094,CONTROLLER://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+    depends_on:
+      - zookeeper
+    # command: ["sh","-c", "sleep 20 && kafka-topics.sh --create --if-not-exists --topic velib_data --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1"]
+    # creating topic with command doesn't work even with sleeping for 20s, somehow this command is executed before kafka server is completly started which gives an error
+    healthcheck:
+      # test: nc -z localhost 9092 || exit -1
+      test: kafka-topics.sh --create --if-not-exists --topic velib_data --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1
+      start_period: 15s
+      interval: 2s
+      timeout: 7s
+      retries: 10
+    networks:
+      - appnet
+
+
+  mssql:
+    image: 'mssql'
+    build:
+      context: MSSQL
+      dockerfile: dockerfile
+    container_name: mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=MY1password
+    expose: ["1433"]
+    restart: on-failure
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -U sa -P MY1password -i /mycode/setup.sql
+      interval: 3s
+      timeout: 7s
+      retries: 20
+    networks:
+      - appnet
+
+
+  pyspark:
+    image: pyspark
+    build:
+      context: SPARK
+      dockerfile: dockerfile
+    container_name: pyspark
+    restart: on-failure
+    ports:
+      - '7077:7077'
+      - '4040:4040'
+      - '4041:4041'
+      - '8090:8080'
+      - '15002:15002'
+      - '8501:8501' #streamlit app
+    command: ["/opt/bitnami/spark/mycode/run.sh"]
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - appnet
+
+
+
+  postgres:
+    image: 'postgres:13'
+    restart: on-failure
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    expose: ["5432"]
+    networks:
+      - appnet
+
+
+
+  airflow:
+    image: airflow_glue
+    build:
+      context: AIRFLOW
+      dockerfile: dockerfile
+    restart: on-failure
+    environment:
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__PARALLELISM=4
+      - AIRFLOW__CORE__DAG_CONCURRENCY=4
+    entrypoint: [ "/bin/sh","-c"]
+    command: ["/opt/airflow/appscripts/run.sh"]
+    ports:
+      - '8080:8080' #airflow ui
+    depends_on:
+      kafka:
+        condition: service_healthy
+      mssql:
+        condition: service_healthy
+    volumes:
+      - ./AIRFLOW/dags:/opt/airflow/dags
+      - ./AIRFLOW/appscripts:/opt/airflow/appscripts
+    networks:
+      - appnet
+
+
+# volumes:
+#   streampool:
