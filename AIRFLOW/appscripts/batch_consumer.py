@@ -84,7 +84,7 @@ def batch_send_mssql():
     #connection
     dbserver = "mssql" 
     db_name = "velib"
-    jdbcUrl = f"jdbc:sqlserver://{dbserver}:1433;DatabaseName={db_name}"  #+";encrypt=true;trustServerCertificate=true;integratedSecurity=true;"
+    jdbcUrl = f"jdbc:sqlserver://{dbserver}:1433;DatabaseName={db_name}"
     driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
 
     station_info = spark.read\

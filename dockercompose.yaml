@@ -126,7 +126,3 @@ services:
       - ./AIRFLOW/appscripts:/opt/airflow/appscripts
     networks:
       - appnet
-
-
-# volumes:
-#   streampool:
