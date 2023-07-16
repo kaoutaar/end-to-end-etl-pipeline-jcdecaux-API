@@ -2,7 +2,8 @@
 
 <br style=“line-height:10;”> 
 
-![image](https://github.com/kaoutaar/end-to-end-etl-pipeline-jcdecaux-API/assets/51215027/c57b48d0-1658-4249-b2b1-90d997dfe84e)
+![image](https://github.com/kaoutaar/end-to-end-etl-pipeline-jcdecaux-API/assets/51215027/ae516d3c-328a-4f7f-8a01-3f037456f125)
+
 
 <br style=“line-height:10;”> 
 
@@ -10,7 +11,7 @@ The architecture consists of 2 main pipelines:
 * Batch pipeline: after data being served to kafka, we use spark analytics engine to transform and process data in batches and send tables into a datawarehouse
 * Stream pipeline: we use spark streaming to fetch and filter data that will be served in our web application in ~ realtime.
 
-  
+
 ### Jcdecaux API:
 a single call of this API returns the most recent information about all the existing stations, "the most recent " could be the last update got 1–2 min ago, 
 which doesn't really mean real-time data, we can do nothing to improve it, this is how the API works. 
@@ -66,12 +67,12 @@ Notes:
 <br style=“line-height:20;”> 
 
 
-![airflow](https://github.com/kaoutaar/end-to-end-etl-pipeline-jcdecaux-API/assets/51215027/a7c08aff-2a02-46c5-8dd9-13c209bca6a5)
+![Screenshot (47)](https://github.com/kaoutaar/end-to-end-etl-pipeline-jcdecaux-API/assets/51215027/b9ed38f8-3252-4f00-97d0-c03d4749f0fc)
 
 wait at least 2 min to run the web application at 
 > localhost:8501
 
-![app](https://github.com/kaoutaar/end-to-end-etl-pipeline-jcdecaux-API/assets/51215027/c6d0f358-1f09-4359-9b43-6121502ffbc7)
+![Screenshot (48)](https://github.com/kaoutaar/end-to-end-etl-pipeline-jcdecaux-API/assets/51215027/15075659-8fc6-4041-8bf0-0bc9e0bab95d)
 
 <br style=“line-height:10;”> 
  
