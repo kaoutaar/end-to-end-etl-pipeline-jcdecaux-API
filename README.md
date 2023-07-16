@@ -72,7 +72,9 @@ Notes:
 wait at least 2 min to run the web application at 
 > localhost:8501
 
-![Screenshot (48)](https://github.com/kaoutaar/end-to-end-etl-pipeline-jcdecaux-API/assets/51215027/15075659-8fc6-4041-8bf0-0bc9e0bab95d)
+
+![Screenshot (52)](https://github.com/kaoutaar/end-to-end-etl-pipeline-jcdecaux-API/assets/51215027/0eb62674-0f3c-4014-a5b0-22a2de8576b9)
+
 
 <br style=“line-height:10;”> 
  
