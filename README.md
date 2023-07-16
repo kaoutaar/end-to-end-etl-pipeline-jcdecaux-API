@@ -59,6 +59,7 @@ after all containers are up, using your browser, you can view the airflow UI at
 
 Notes: 
 * airflow webserver may take extra time to start, so be patient!
+* the credentials to login are admin:admin
 * the DAGs are configured to not automatically start when the servers are up, you have to start them manually using the toggle in the left, but you can change this option if needed
 * the first DAG to be run is **api-to-kafka**
 
