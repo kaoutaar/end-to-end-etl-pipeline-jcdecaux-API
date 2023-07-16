@@ -39,7 +39,7 @@ with a single python script your application is ready to be served.
 
 * for zookeeper, kafka, spark and SQLserver,  each service runs in its own separate container
 
-* Airflow is configured to use local executor to enable parallel tasks, for this we need to set up a postegresql database for backend service, for more options read the following link
+* Airflow is configured to use local executor to enable parallel tasks, for this we need to set up a postgreSQL database for backend service, for more options read the following link
 https://airflow.apache.org/docs/apache-airflow/stable/howto/set-up-database.html
 * the web application could have been set in its own server, but the whole architecture is already taking enough space and cpu,
   this is why the app will live with spark engine in the same container
