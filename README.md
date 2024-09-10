@@ -13,7 +13,8 @@ The architecture consists of 2 main pipelines:
 
 
 ### Jcdecaux API:
-a single call of this API returns the most recent information about all the existing stations, "the most recent " could be the last update got 1–2 min ago, 
+The API provides information about the location of the bike stations in Europe, the availability of bikes and parking spaces in real time, in addition to other details.
+A single call of this API returns the most recent information about all the existing stations, "the most recent" could be the last update got 1–2 min ago, 
 which doesn't really mean real-time data, we can do nothing to improve it, this is how the API works. 
 And to make the API act like a stream source but also avoid to overload the server, a script is scheduled in Airflow to fetch data every 30 seconds, 
 this data is then sent to kafka cluster using kafka produder.
