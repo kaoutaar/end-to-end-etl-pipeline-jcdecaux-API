@@ -1,4 +1,15 @@
+---
 # End-to-end ETL pipeline - jcdecaux API
+
+
+
+![Docker](https://img.shields.io/badge/docker-ready-blue)
+![Spark](https://img.shields.io/badge/Apache_Spark-ready-orange)
+![Spark Streaming](https://img.shields.io/badge/Spark_Streaming-ready-red)
+![Kafka](https://img.shields.io/badge/Apache_Kafka-ready-green)
+![MSSQL](https://img.shields.io/badge/MSSQL-ready-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-ready-lightgreen)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 <br style=“line-height:10;”> 
 
